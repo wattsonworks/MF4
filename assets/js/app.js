@@ -249,6 +249,113 @@
     }
   }
 
+  /* ---- R2: split-flap odometer on price tiers (own observer, runs once) ---- */
+  (function () {
+    var prices = document.querySelectorAll(".ladder .tier__price");
+    if (!prices.length || !("IntersectionObserver" in window)) return;
+    function buildDigit(finalNum, delay) {
+      var wrap = document.createElement("span"); wrap.className = "od-digit";
+      var strip = document.createElement("span"); strip.className = "od-strip";
+      var seq = [], k;
+      for (k = 0; k <= 9; k++) seq.push(k);
+      for (k = 0; k <= 9; k++) seq.push(k);
+      seq.push(finalNum);
+      seq.forEach(function (n) { var c = document.createElement("span"); c.className = "od-cell"; c.textContent = n; strip.appendChild(c); });
+      wrap.appendChild(strip);
+      var landIndex = seq.length - 1;
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        strip.style.transitionDelay = delay + "ms";
+        strip.style.transform = "translateY(-" + landIndex + "em)";
+      }); });
+      strip.addEventListener("transitionend", function () { strip.style.willChange = "auto"; }, { once: true });
+      return wrap;
+    }
+    function rollEl(el) {
+      if (el.getAttribute("data-rolled")) return;
+      el.setAttribute("data-rolled", "1");
+      if (reduce) return;
+      var small = el.querySelector("small");
+      var raw = (el.firstChild && el.firstChild.nodeValue ? el.firstChild.nodeValue : el.textContent).replace(/[^0-9]/g, "");
+      if (!raw) return;
+      el.classList.add("roll");
+      if (el.firstChild && el.firstChild.nodeType === 3) el.removeChild(el.firstChild);
+      var frag = document.createDocumentFragment();
+      raw.split("").forEach(function (ch, i) { frag.appendChild(buildDigit(parseInt(ch, 10), 70 * i)); });
+      if (small) el.insertBefore(frag, small); else el.appendChild(frag);
+    }
+    var oio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (!e.isIntersecting) return; oio.unobserve(e.target); rollEl(e.target); });
+    }, { threshold: 0.45 });
+    [].forEach.call(prices, function (el) { oio.observe(el); });
+  })();
+
+  /* ---- R2: reviews auto-marquee (desktop only; pauses on hover/touch/focus) ---- */
+  (function () {
+    var row = document.querySelector(".rev-row");
+    if (!row || reduce || !fine) return;
+    if (row.children.length < 2) return;
+    var originals = [].slice.call(row.children);
+    originals.forEach(function (c) { var k = c.cloneNode(true); k.classList.add("rev-clone"); k.setAttribute("aria-hidden", "true"); row.appendChild(k); });
+    var half = 0;
+    function measure() { half = row.scrollWidth / 2; }
+    measure();
+    window.addEventListener("resize", measure);
+    if (row.scrollWidth <= row.clientWidth + 4) return;
+    var paused = false, userTouching = false, speed = 0.4;
+    function step() {
+      if (!paused && !userTouching && document.visibilityState !== "hidden") {
+        row.scrollLeft += speed;
+        if (row.scrollLeft >= half) row.scrollLeft -= half;
+        else if (row.scrollLeft <= 0) row.scrollLeft += half;
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    row.addEventListener("mouseenter", function () { paused = true; });
+    row.addEventListener("mouseleave", function () { paused = false; });
+    row.addEventListener("focusin", function () { paused = true; });
+    row.addEventListener("focusout", function () { paused = false; });
+    row.addEventListener("touchstart", function () { userTouching = true; }, { passive: true });
+    row.addEventListener("touchend", function () { setTimeout(function () { userTouching = false; }, 2500); }, { passive: true });
+    var resume; row.addEventListener("wheel", function () { userTouching = true; clearTimeout(resume); resume = setTimeout(function () { userTouching = false; }, 2000); }, { passive: true });
+  })();
+
+  /* ---- R2: WhatsApp FAB scroll-progress ring ---- */
+  (function () {
+    var wa = document.querySelector(".wa");
+    if (!wa) return;
+    var tick = false;
+    function upd() {
+      tick = false;
+      var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+      var p = max > 0 ? h.scrollTop / max : 0;
+      wa.style.setProperty("--wa-prog", p.toFixed(4));
+    }
+    window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+    window.addEventListener("resize", upd, { passive: true });
+    upd();
+  })();
+
+  /* ---- R2: magnetic CTA badge (desktop, motion-ok) ---- */
+  if (fine && !reduce) {
+    var badgeEl = document.querySelector(".badge");
+    if (badgeEl) {
+      badgeEl.addEventListener("mousemove", function (e) {
+        var r = badgeEl.getBoundingClientRect();
+        var dx = (e.clientX - r.left - r.width / 2) * 0.18;
+        var dy = (e.clientY - r.top - r.height / 2) * 0.2;
+        badgeEl.classList.add("pull");
+        badgeEl.style.transform = "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px)";
+      });
+      badgeEl.addEventListener("mouseleave", function () { badgeEl.classList.remove("pull"); badgeEl.style.transform = ""; });
+      var curB = document.getElementById("cursor");
+      if (curB) {
+        badgeEl.addEventListener("mouseenter", function () { curB.classList.add("grow"); });
+        badgeEl.addEventListener("mouseleave", function () { curB.classList.remove("grow"); });
+      }
+    }
+  }
+
   /* ---- footer year ---- */
   var yr = document.getElementById("yr"); if (yr) yr.textContent = new Date().getFullYear();
 })();
