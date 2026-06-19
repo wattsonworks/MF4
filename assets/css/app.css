@@ -541,6 +541,13 @@ body.loaded .preloader{display:none}
 @media(max-width:560px){.etab{font-size:.66rem;padding:.95rem .5rem;letter-spacing:.12em}}
 @media(prefers-reduced-motion:reduce){.etab{transform:translateX(0);transition:none}}
 
+/* mobile: stack hero CTAs full-width so the pink button never sits over the
+   transparent one or the subtitle */
+@media(max-width:600px){
+  .hero__cta{flex-direction:column;align-items:stretch;gap:.7rem}
+  .hero__cta .btn{width:100%}
+}
+
 /* contextual cursor label */
 .cursor__label{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:.6rem;
   letter-spacing:.08em;text-transform:uppercase;color:#fff;opacity:0;transition:opacity .2s;white-space:nowrap;pointer-events:none}
