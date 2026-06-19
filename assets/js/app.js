@@ -36,7 +36,22 @@
     setMenu(!document.body.classList.contains("menu-open"));
   });
   document.querySelectorAll(".menu a, .menu__list a").forEach(function (a) {
-    a.addEventListener("click", function () { setMenu(false); });
+    a.addEventListener("click", function (e) {
+      var href = a.getAttribute("href");
+      setMenu(false); /* re-enables scroll + starts the curtain lift */
+      if (href && href.charAt(0) === "#" && href.length > 1) {
+        var target = document.getElementById(href.slice(1));
+        if (target) {
+          e.preventDefault();
+          /* jump instantly while the menu still covers the screen, so the
+             curtain reveals the DESTINATION, not the previous section */
+          var htmlEl = document.documentElement, prev = htmlEl.style.scrollBehavior;
+          htmlEl.style.scrollBehavior = "auto";
+          target.scrollIntoView();          /* honors section scroll-margin-top */
+          htmlEl.style.scrollBehavior = prev;
+        }
+      }
+    });
   });
 
   /* ---- scroll reveal ---- */
