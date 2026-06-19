@@ -98,12 +98,12 @@
     var pEras = [].map.call(document.querySelectorAll("[data-parallax]"), function (el) {
       return { el: el, speed: parseFloat(el.getAttribute("data-parallax")) || 0.12 };
     });
-    var heroImg = document.querySelector(".hero__bg img");
+    var heroImg = document.querySelector(".hero__bg img,.hero__bg video");
     var pTick = false;
     function parallax() {
       pTick = false;
       var y = window.scrollY;
-      if (heroImg && y < window.innerHeight) heroImg.style.transform = "scale(1.05) translateY(" + (y * 0.18) + "px)";
+      if (heroImg && y < window.innerHeight) heroImg.style.transform = "scale(1.12) translateY(" + (y * 0.1) + "px)";
       pEras.forEach(function (p) {
         var r = p.el.getBoundingClientRect();
         if (r.bottom > 0 && r.top < window.innerHeight) {
@@ -115,6 +115,25 @@
     window.addEventListener("scroll", function () { if (!pTick) { pTick = true; requestAnimationFrame(parallax); } }, { passive: true });
     parallax();
   }
+
+  /* ---- hero video: muted autoplay + click-to-unmute (sound prompt) ---- */
+  (function () {
+    var v = document.getElementById("heroVid");
+    if (!v) return;
+    var btn = document.getElementById("heroSound");
+    v.muted = true; v.loop = true; v.setAttribute("playsinline", "");
+    function showBtn(s) { if (btn) btn.hidden = !s; }
+    function unmute() { v.muted = false; showBtn(false); var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    var pp = v.play(); if (pp && pp.catch) pp.catch(function () {});
+    showBtn(true); /* surface the 🔊 prompt — browsers block audio without a gesture */
+    if (btn) btn.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); unmute(); });
+    v.addEventListener("click", function () { if (v.muted) unmute(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { var q = v.play(); if (q && q.catch) q.catch(function () {}); } else { v.pause(); } });
+      }, { threshold: 0.15 }).observe(v);
+    }
+  })();
 
   /* ---- lightbox ---- */
   var lb = document.querySelector(".lb"), lbImg = lb ? lb.querySelector("img") : null;
