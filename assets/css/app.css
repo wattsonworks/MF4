@@ -522,31 +522,24 @@ body.loaded .preloader{display:none}
 .badge:hover .badge__dot{background:var(--rose)}
 
 /* ============================================================
-   DRAGGABLE "כרטיסיות" DECK — popping, tactile, tap-through
+   OFF-SCREEN EDGE TABS — pop in from the edge · tug to pull
    ============================================================ */
-.deck-sec{padding-block:clamp(3rem,7vw,6rem)}
-.deck-sec .sec-head{text-align:center;margin-bottom:1.6rem}
-.deck{position:relative;overflow:hidden;height:clamp(440px,58vw,560px);border-radius:24px;
-  background:radial-gradient(120% 100% at 50% 0%,var(--paper-2),var(--paper));border:1px solid var(--line)}
-.kcard{position:absolute;left:var(--l,50%);top:var(--t,50%);width:clamp(140px,18vw,200px);aspect-ratio:3/4;
-  transform:translate(-50%,-50%) rotate(var(--r,0deg));border-radius:14px;overflow:hidden;
-  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;border:3px solid #fff;
-  box-shadow:0 12px 30px rgba(35,20,25,.2);will-change:transform;opacity:0;
-  transition:transform .5s var(--ease-out),box-shadow .3s}
-.kcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
-.kcard::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(28,15,20,.9),transparent 55%);pointer-events:none}
-.kcard .kc-body{position:absolute;inset-block-end:0;inset-inline:0;padding:.85rem;color:#fff;z-index:1;pointer-events:none}
-.kcard .kc-name{font-family:var(--serif);font-weight:500;font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.05}
-.kcard .kc-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blush);margin-top:.2rem}
-.kcard.grab{cursor:grabbing;box-shadow:0 36px 80px rgba(35,20,25,.45);transition:transform .1s ease-out,box-shadow .3s}
-.deck-hint{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1.1rem;
-  font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep)}
-@keyframes kpop{
-  0%{opacity:0;transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(.3)}
-  62%{opacity:1;transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(1.1)}
-  100%{opacity:1;transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(1)}}
-.deck.in .kcard{animation:kpop .7s var(--ease-out) forwards;animation-delay:calc(var(--i,0)*.07s)}
-@media(prefers-reduced-motion:reduce){.deck .kcard{opacity:1;animation:none}.kcard,.kcard.grab{transition:none}}
+.etabs{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:88;
+  display:flex;flex-direction:column;gap:.7rem;pointer-events:none}
+.etab{pointer-events:auto;writing-mode:vertical-rl;text-orientation:mixed;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:1.15rem .55rem;border-radius:14px 0 0 14px;
+  font-family:var(--mono);font-weight:600;font-size:.74rem;letter-spacing:.16em;
+  color:#fff;background:var(--ink);box-shadow:-8px 12px 30px rgba(35,20,25,.3);
+  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
+  transform:translateX(110%);transition:transform .55s var(--ease-out),box-shadow .3s,background .3s}
+.etab--rose{background:var(--rose)}
+.etab--gold{background:var(--gold);color:var(--ink)}
+.etab.shown{transform:translateX(0)}
+@media(hover:hover){.etab.shown:hover{transform:translateX(-10px);box-shadow:-16px 16px 42px rgba(35,20,25,.42)}}
+.etab.grab{cursor:grabbing;transition:transform .09s linear,box-shadow .3s}
+@media(max-width:560px){.etab{font-size:.66rem;padding:.95rem .5rem;letter-spacing:.12em}}
+@media(prefers-reduced-motion:reduce){.etab{transform:translateX(0);transition:none}}
 
 /* contextual cursor label */
 .cursor__label{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:.6rem;
