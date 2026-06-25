@@ -104,6 +104,11 @@ body.menu-open .burger span{background:var(--paper)}
 body.menu-open .burger span:nth-child(1){transform:translateY(8px) rotate(45deg)}
 body.menu-open .burger span:nth-child(2){opacity:0}
 body.menu-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+/* the burger is position:static, so its z-index is inert and the menu (z101) covered it →
+   a real tap on the X hit the menu, not the close button. Lift the whole nav above the menu. */
+.burger{position:relative}
+body.menu-open .nav{z-index:112;background:transparent;box-shadow:none}
+body.menu-open .nav__brand,body.menu-open .nav__brand small{color:var(--paper)}
 .menu__list{display:flex;flex-direction:column;gap:.2rem}
 .menu__list a{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,9vw,5.5rem);line-height:1.05;
   width:max-content;max-width:100%;transition:color .3s,padding .4s var(--ease);position:relative}
@@ -144,8 +149,10 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45de
 .hero__sub{max-width:46ch;font-size:clamp(1.05rem,1.5vw,1.3rem);color:rgba(247,239,232,.9);margin:1.8rem 0 2.2rem;
   opacity:0;animation:fadeUp 1s var(--ease) .8s forwards}
 .hero__cta{display:flex;flex-wrap:wrap;gap:1rem;opacity:0;animation:fadeUp 1s var(--ease) 1s forwards}
-.hero__scroll{position:absolute;inset-block-end:1.6rem;inset-inline-end:var(--gut);font-family:var(--mono);font-size:.7rem;
-  letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;display:flex;align-items:center;gap:.8rem;opacity:.8}
+.hero__scroll{position:absolute;top:auto;bottom:1.5rem;left:50%;right:auto;transform:translateX(-50%);z-index:2;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;display:flex;align-items:center;gap:.8rem;opacity:.8}
+/* bottom is full of stacked CTAs + FAB on phones (and the burger is top-left) — hide the hint there */
+@media(max-width:920px){.hero__scroll{display:none}}
 .hero__scroll::after{content:"";width:1px;height:48px;background:var(--paper);animation:scrollLine 1.8s var(--ease) infinite}
 
 @keyframes rise{to{transform:translateY(0)}}
