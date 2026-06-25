@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>עכשיו · מיכל פיטנס</title>
+<meta name="description" content="מה קורה עכשיו בסטודיו מיכל פיטנס בצפת — לוח אימונים חי, מי מגיעה, לייקים ותגובות.">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#2a141d">
+<link rel="manifest" href="now.webmanifest">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="עכשיו · מיכל פיטנס">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7efe8; --wine:#2a141d; --wine-2:#3a1c28; --ink:#231419;
+  --rose:#e0467a; --rose-deep:#c13566; --blush:#f3c6d0; --gold:#d99f63;
+  --card:rgba(255,255,255,.055); --card-line:rgba(255,255,255,.10);
+  --serif:"Frank Ruhl Libre",Georgia,serif; --sans:"Assistant",system-ui,sans-serif; --mono:"Space Grotesk","Assistant",sans-serif;
+  --ease:cubic-bezier(.22,.7,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);color:var(--paper);line-height:1.6;
+  background:radial-gradient(120% 70% at 80% -10%,#3a1c28 0%,#2a141d 55%,#1d0e15 100%);
+  min-height:100dvh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--blush);outline-offset:3px;border-radius:8px}
+.wrap{width:min(620px,100%);margin-inline:auto;padding-inline:clamp(.9rem,4vw,1.3rem)}
+
+/* ── top bar ── */
+.bar{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(29,14,21,.72);border-bottom:1px solid var(--card-line);
+  padding-top:env(safe-area-inset-top)}
+.bar__in{display:flex;align-items:center;gap:.7rem;padding:.7rem clamp(.9rem,4vw,1.3rem)}
+.bar__logo{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.bar__t{font-family:var(--serif);font-weight:700;font-size:1.12rem;line-height:1;letter-spacing:-.01em}
+.bar__t small{display:block;font-family:var(--mono);font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--blush);opacity:.8;margin-top:3px}
+.bar__live{margin-inline-start:auto;display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blush)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 0 rgba(224,70,122,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,70,122,.55)}70%{box-shadow:0 0 0 9px rgba(224,70,122,0)}100%{box-shadow:0 0 0 0 rgba(224,70,122,0)}}
+.bar__refresh{margin-inline-start:.2rem;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;color:var(--blush);transition:transform .5s var(--ease)}
+.bar__refresh:active{transform:rotate(180deg)}
+
+main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
+
+/* ── live hero ── */
+.live{margin:1.1rem 0 .4rem;border-radius:22px;padding:1.3rem 1.25rem 1.15rem;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,rgba(224,70,122,.18),rgba(217,159,99,.10) 60%,rgba(255,255,255,.03));
+  border:1px solid var(--card-line)}
+.live__k{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blush);display:flex;align-items:center;gap:.5rem}
+.live__cls{font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,7.5vw,2.5rem);line-height:1.05;margin:.5rem 0 .15rem}
+.live__meta{font-size:.95rem;color:#f4e3d8;opacity:.9}
+.live__meta b{color:var(--gold);font-weight:700}
+.live__count{font-family:var(--mono);font-size:.78rem;color:var(--blush);margin-top:.55rem;min-height:1.1em}
+.live__cta{margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap}
+.live__off{opacity:.75}
+
+/* ── buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.6rem 1.15rem;border-radius:999px;
+  font-family:var(--mono);font-weight:600;font-size:.85rem;letter-spacing:.02em;transition:transform .15s var(--ease),background .25s,color .25s,border-color .25s;
+  background:var(--rose);color:#fff;border:1px solid var(--rose)}
+.btn:active{transform:scale(.96)}
+.btn--ghost{background:transparent;color:var(--paper);border-color:var(--card-line)}
+.btn.is-on{background:#fff;color:var(--rose-deep);border-color:#fff}
+.btn--sm{min-height:40px;padding:.45rem .9rem;font-size:.8rem}
+
+/* ── admin composer ── */
+.composer{margin:.5rem 0 .2rem;border-radius:18px;border:1px dashed rgba(243,198,208,.4);background:rgba(255,255,255,.04);padding:.9rem}
+.composer__lab{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.composer textarea{width:100%;min-height:64px;resize:vertical;border-radius:12px;border:1px solid var(--card-line);background:rgba(0,0,0,.18);color:var(--paper);font:inherit;padding:.7rem .8rem}
+.composer textarea::placeholder{color:rgba(247,239,232,.45)}
+.composer__row{display:flex;align-items:center;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
+.emojis{display:flex;gap:.3rem;flex-wrap:wrap}
+.emojis button{font-size:1.15rem;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid transparent}
+.emojis button.sel{border-color:var(--rose);background:rgba(224,70,122,.18)}
+.composer__post{margin-inline-start:auto}
+
+/* ── feed ── */
+.sec-lab{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blush);opacity:.8;margin:1.3rem .2rem .5rem}
+.moment{border-radius:18px;background:var(--card);border:1px solid var(--card-line);padding:1rem 1.05rem;margin-bottom:.85rem;animation:rise .5s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.moment__top{display:flex;align-items:center;gap:.55rem;margin-bottom:.5rem}
+.moment__av{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.moment__by{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blush)}
+.moment__time{margin-inline-start:auto;font-family:var(--mono);font-size:.64rem;color:rgba(243,198,208,.6)}
+.moment__txt{font-size:1.06rem;line-height:1.55;color:#f6e8de}
+.moment__txt .em{font-size:1.25rem;margin-inline-end:.25rem}
+.moment__img{margin-top:.7rem;border-radius:12px;width:100%;max-height:340px;object-fit:cover}
+.moment__del{margin-inline-start:.4rem;font-size:.72rem;color:rgba(243,198,208,.6)}
+
+.acts{display:flex;align-items:center;gap:.45rem;margin-top:.85rem;flex-wrap:wrap}
+.act{display:inline-flex;align-items:center;gap:.35rem;min-height:40px;padding:.35rem .75rem;border-radius:999px;
+  border:1px solid var(--card-line);background:rgba(255,255,255,.03);font-family:var(--mono);font-size:.78rem;color:var(--paper);
+  transition:transform .15s var(--ease),background .2s,border-color .2s,color .2s}
+.act:active{transform:scale(.94)}
+.act .ic{font-size:1rem;line-height:1}
+.act.on-like{background:rgba(224,70,122,.16);border-color:var(--rose);color:#ffd9e6}
+.act.on-coming{background:rgba(217,159,99,.18);border-color:var(--gold);color:#ffe9cf}
+.act .n{opacity:.85;font-size:.74rem}
+.coming-names{font-family:var(--mono);font-size:.7rem;color:var(--gold);margin-top:.55rem;min-height:0}
+
+/* comments */
+.cmts{margin-top:.7rem;border-top:1px solid var(--card-line);padding-top:.6rem;display:none}
+.cmts.open{display:block}
+.cmt{font-size:.9rem;margin:.3rem 0;line-height:1.45}
+.cmt b{color:var(--blush);font-weight:700;font-size:.8rem}
+.cmt__t{font-family:var(--mono);font-size:.58rem;color:rgba(243,198,208,.5);margin-inline-start:.35rem}
+.cmt-form{display:flex;gap:.45rem;margin-top:.55rem}
+.cmt-form input{flex:1;min-height:42px;border-radius:999px;border:1px solid var(--card-line);background:rgba(0,0,0,.18);color:var(--paper);font:inherit;padding:.5rem .9rem}
+.cmt-form input::placeholder{color:rgba(247,239,232,.4)}
+
+.empty{text-align:center;color:rgba(243,198,208,.65);font-size:.95rem;padding:2.5rem 1rem;line-height:1.7}
+.foot{text-align:center;padding:1.5rem 1rem 0;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:rgba(243,198,208,.55)}
+.foot a{color:var(--blush);border-bottom:1px solid rgba(243,198,208,.3)}
+
+/* install pill */
+.install{position:fixed;inset-block-end:calc(env(safe-area-inset-bottom) + 1rem);inset-inline:0;margin-inline:auto;width:max-content;z-index:40;
+  background:var(--gold);color:#3a1c28;box-shadow:0 12px 30px rgba(0,0,0,.4);font-weight:700}
+/* toast */
+.toast{position:fixed;inset-block-end:calc(env(safe-area-inset-bottom) + 5.2rem);inset-inline:0;margin-inline:auto;width:max-content;max-width:88vw;z-index:50;
+  background:#fff;color:var(--ink);font-weight:600;font-size:.88rem;padding:.7rem 1.1rem;border-radius:999px;box-shadow:0 12px 30px rgba(0,0,0,.35);
+  opacity:0;transform:translateY(12px);transition:opacity .3s,transform .3s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(15,7,11,.7);backdrop-filter:blur(6px);padding:1.2rem}
+.modal.open{display:grid}
+.modal__card{width:min(360px,100%);background:var(--wine-2);border:1px solid var(--card-line);border-radius:20px;padding:1.4rem}
+.modal__card h3{font-family:var(--serif);margin:0 0 .3rem;font-size:1.3rem}
+.modal__card p{margin:0 0 .9rem;font-size:.9rem;color:var(--blush)}
+.modal__card input{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--card-line);background:rgba(0,0,0,.2);color:var(--paper);font:inherit;padding:.6rem .9rem;margin-bottom:.9rem}
+.modal__row{display:flex;gap:.6rem}
+.skel{height:120px;border-radius:18px;background:linear-gradient(100deg,rgba(255,255,255,.04),rgba(255,255,255,.09),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.3s infinite;margin-bottom:.85rem}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar__in">
+    <img class="bar__logo" src="assets/img/logo.png" alt="מיכל פיטנס" id="logo">
+    <div class="bar__t">עכשיו<small>Michal Fitness · Live</small></div>
+    <span class="bar__live"><span class="dot"></span> חי</span>
+    <button class="bar__refresh" id="refresh" aria-label="רענון">↻</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="live" id="live">
+    <div class="skel"></div>
+  </section>
+
+  <div class="composer" id="composer" hidden>
+    <div class="composer__lab">פוסט חדש · מיכל</div>
+    <textarea id="cText" maxlength="280" placeholder="מה קורה עכשיו בסטודיו? (״עכשיו: ספינינג מתפוצץ, יש 2 מקומות!״)"></textarea>
+    <div class="composer__row">
+      <div class="emojis" id="emojis"></div>
+      <button class="btn btn--sm composer__post" id="cPost">פרסום</button>
+    </div>
+  </div>
+
+  <div class="sec-lab">מה חדש בסטודיו</div>
+  <section class="feed" id="feed"><div class="skel"></div><div class="skel"></div></section>
+  <div class="empty" id="empty" hidden>עוד אין עדכונים 💛<br>ברגע שמיכל תפרסם משהו — זה יופיע כאן בזמן אמת.</div>
+
+  <div class="foot">סטודיו מיכל פיטנס · צפת — <a href="index.html">לאתר המלא ↗</a></div>
+</main>
+
+<button class="install btn" id="install" hidden>הוסיפי למסך הבית ⤓</button>
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="nameModal">
+  <div class="modal__card">
+    <h3>איך לקרוא לך?</h3>
+    <p>השם יוצג ליד התגובות ו״אני מגיעה״.</p>
+    <input id="nameInput" maxlength="24" placeholder="השם שלך" autocomplete="name">
+    <div class="modal__row">
+      <button class="btn" id="nameSave" style="flex:1">שמירה</button>
+      <button class="btn btn--ghost" id="nameCancel">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var API = "https://michal-now.fraps32.workers.dev";
+
+  /* ── identity ── */
+  function rid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,9); }
+  var cid = localStorage.getItem("mfnow_cid"); if(!cid){ cid = rid(); localStorage.setItem("mfnow_cid", cid); }
+  function getName(){ return localStorage.getItem("mfnow_name") || ""; }
+  function setName(n){ localStorage.setItem("mfnow_name", n); }
+
+  /* admin unlock via ?admin=KEY or stored */
+  var qs = new URLSearchParams(location.search);
+  if(qs.get("admin")){ localStorage.setItem("mfnow_admin", qs.get("admin")); history.replaceState(null,"",location.pathname); }
+  var ADMIN = localStorage.getItem("mfnow_admin") || "";
+
+  var $ = function(s,r){ return (r||document).querySelector(s); };
+  var feedEl = $("#feed"), liveEl = $("#live"), emptyEl = $("#empty");
+
+  /* ── toast ── */
+  var toastEl = $("#toast"), toastT;
+  function toast(msg){ toastEl.textContent = msg; toastEl.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove("show"); }, 2400); }
+
+  /* ── name modal (promise) ── */
+  var nameModal = $("#nameModal"), nameInput = $("#nameInput"), pendingName=null;
+  function ensureName(){
+    return new Promise(function(res,rej){
+      var n = getName(); if(n){ res(n); return; }
+      pendingName = {res:res, rej:rej};
+      nameModal.classList.add("open"); nameInput.value=""; setTimeout(function(){ nameInput.focus(); },50);
+    });
+  }
+  $("#nameSave").addEventListener("click", function(){
+    var v = nameInput.value.trim().slice(0,24); if(!v){ nameInput.focus(); return; }
+    setName(v); nameModal.classList.remove("open"); if(pendingName){ pendingName.res(v); pendingName=null; }
+  });
+  $("#nameCancel").addEventListener("click", function(){ nameModal.classList.remove("open"); if(pendingName){ pendingName.rej(); pendingName=null; } });
+  nameInput.addEventListener("keydown", function(e){ if(e.key==="Enter") $("#nameSave").click(); });
+
+  /* ── time helpers ── */
+  function ago(ts){
+    var s = Math.floor((Date.now()-ts)/1000);
+    if(s<60) return "עכשיו";
+    var m = Math.floor(s/60); if(m<60) return "לפני " + m + " דק׳";
+    var h = Math.floor(m/60); if(h<24) return "לפני " + h + " שע׳";
+    var d = Math.floor(h/24); if(d===1) return "אתמול";
+    return "לפני " + d + " ימים";
+  }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  /* ── schedule (same 2-week loop as the site) ── */
+  var A = [
+    [["08:30","עיצוב וחיטוב","רחלי הילל"],["17:30","פילאטיס","רחלי הילל"],["18:30","קיקבוקס שורף · ישבן בטן","מיכל רייכר"],["19:30","אימון כח משולב HIIT","מיכל רייכר"]],
+    [["05:30","עיצוב וחיטוב · אימון זריחה","מיכל רייכר"],["08:30","פילאטיס power","רחלי הילל"],["17:15","עיצוב וחיטוב · תחנות","מיכל רייכר"],["18:30","ספינינג","מיכל רייכר"],["19:30","יוגה","זוהרה"]],
+    [["08:30","עיצוב וחיטוב","מיכל רייכר"],["09:30","פילאטיס power","מיכל רייכר"],["18:00","עיצוב וחיטוב","רחלי הילל"],["19:15","עיצוב וחיטוב","רחלי הילל"]],
+    [["08:30","פילאטיס power","רחלי הילל"],["17:15","אימון כח משולב HIIT","רחלי הילל"],["18:20","פילאטיס power","מיכל רייכר"],["19:30","ספינינג","מיכל רייכר"]],
+    [["05:30","ריצת זריחה + מתיחות בטבע","מיכל רייכר"],["08:30","עיצוב וחיטוב","מיכל רייכר"],["17:30","עיצוב חיטוב · תחנות","ליאור מלול"],["18:45","קנגו ג׳אמפ","ליאור מלול"]],
+    [["07:30","עיצוב וחיטוב","רחלי הילל"],["08:30","פילאטיס power","רחלי הילל"],["09:30","עיצוב וחיטוב","רחלי הילל"]],
+    []
+  ];
+  var B = [
+    [["08:30","עיצוב וחיטוב","מיכל רייכר"],["17:30","פילאטיס","מיכל רייכר"],["18:30","קיקבוקס שורף · ישבן בטן","מיכל רייכר"],["19:30","אימון כח משולב HIIT","מיכל רייכר"]],
+    [["05:30","עיצוב וחיטוב · אימון זריחה","לימור נידם"],["08:30","פילאטיס power","מיכל רייכר"],["17:15","עיצוב וחיטוב · תחנות","מיכל רייכר"],["18:30","ספינינג","מיכל רייכר"],["19:30","יוגה","זוהרה"]],
+    [["08:30","עיצוב וחיטוב","מיכל רייכר"],["09:30","פילאטיס power","מיכל רייכר"],["18:00","עיצוב וחיטוב","מיכל רייכר"],["19:15","עיצוב וחיטוב","מיכל רייכר"],["20:20","זומבה","שירז עזרא"]],
+    [["08:30","פילאטיס power","מיכל רייכר"],["17:15","אימון כח משולב HIIT","מיכל רייכר"],["18:20","פילאטיס power","מיכל רייכר"],["19:30","ספינינג","מיכל רייכר"]],
+    [["05:30","ריצת זריחה + מתיחות בטבע","מיכל רייכר"],["08:30","עיצוב וחיטוב","מיכל רייכר"],["17:30","עיצוב חיטוב · תחנות","ליאור מלול"],["18:45","קנגו ג׳אמפ","ליאור מלול"]],
+    [["07:30","עיצוב וחיטוב","רחלי הילל"],["08:30","פילאטיס power","רחלי הילל"],["09:30","עיצוב וחיטוב","רחלי הילל"]],
+    []
+  ];
+  var ANCHOR = Date.UTC(2026,5,21); // Sun 21 Jun 2026 = week A
+  function weekOf(d){ var days = Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()) - ANCHOR)/86400000); var wk = Math.floor(days/7); return (((wk%2)+2)%2)===0 ? A : B; }
+  function pad(n){ return (n<10?"0":"")+n; }
+  var DUR = 55*60000;
+  function nextSession(now){
+    for(var off=0; off<8; off++){
+      var d = new Date(now.getFullYear(),now.getMonth(),now.getDate()+off);
+      var day = (weekOf(d)[d.getDay()]||[]);
+      for(var i=0;i<day.length;i++){
+        var hm = day[i][0].split(":");
+        var start = new Date(d.getFullYear(),d.getMonth(),d.getDate(),+hm[0],+hm[1],0,0);
+        var ms = start.getTime();
+        if(off===0 && now.getTime()>=ms && now.getTime()<ms+DUR)
+          return {state:"now", cls:day[i][1], time:day[i][0], who:day[i][2], date:start, endMs:ms+DUR};
+        if(ms>now.getTime())
+          return {state:"next", cls:day[i][1], time:day[i][0], who:day[i][2], date:start, off:off};
+      }
+    }
+    return null;
+  }
+  function sessionKey(s){ var d=s.date; return "s:"+d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+":"+s.time+":"+s.cls; }
+  var DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+
+  /* ── state ── */
+  var lastSession = null;     // current next/now session object
+  var sessionComing = {count:0, names:[], you:false};
+
+  function renderLive(){
+    var now = new Date();
+    var s = nextSession(now);
+    lastSession = s;
+    if(!s){ liveEl.innerHTML = '<div class="live__k"><span class="dot"></span> השבוע</div><div class="live__cls">נתראה באימון הבא</div><div class="live__meta">אין כרגע שיעור קרוב בלוח.</div>'; return; }
+    var when, kicker;
+    if(s.state==="now"){
+      kicker = '<span class="dot"></span> מתאמנות עכשיו';
+      var left = Math.max(1, Math.round((s.endMs - now.getTime())/60000));
+      when = 'מתקיים עכשיו · עוד כ-' + left + ' דק׳';
+    } else {
+      kicker = "השיעור הבא";
+      var diff = Math.round((s.date.getTime()-now.getTime())/60000);
+      if(s.off===0 && diff<60) when = "עוד " + diff + " דק׳";
+      else if(s.off===0) when = "היום ב-" + s.time;
+      else if(s.off===1) when = "מחר ב-" + s.time;
+      else when = "יום " + DAYS[s.date.getDay()] + " ב-" + s.time;
+    }
+    var youOn = sessionComing.you;
+    liveEl.innerHTML =
+      '<div class="live__k">'+kicker+'</div>'+
+      '<div class="live__cls">'+esc(s.cls)+'</div>'+
+      '<div class="live__meta">'+when+' · עם <b>'+esc(s.who)+'</b></div>'+
+      '<div class="live__count" id="sCount"></div>'+
+      '<div class="live__cta">'+
+        '<button class="btn '+(youOn?"is-on":"")+'" id="sComing">'+(youOn?"✓ את מגיעה":"אני מגיעה 🙋‍♀️")+'</button>'+
+        '<a class="btn btn--ghost" href="index.html#classes">כל האימונים</a>'+
+      '</div>';
+    renderSessionCount();
+    $("#sComing").addEventListener("click", onSessionComing);
+  }
+  function renderSessionCount(){
+    var el = $("#sCount"); if(!el) return;
+    var c = sessionComing.count, names = sessionComing.names;
+    if(!c){ el.textContent = "היי הראשונה שמסמנת שאת מגיעה ✨"; return; }
+    var who = names.slice(0,3).join(", ");
+    el.textContent = "🔥 " + c + " כבר מגיעות" + (who? " · "+who+(c>3?" ועוד":""):"");
+  }
+  function onSessionComing(){
+    if(!lastSession) return;
+    ensureName().then(function(name){
+      var key = sessionKey(lastSession);
+      post("/api/coming", {cid:cid, key:key, name:name}).then(function(r){
+        if(!r||!r.ok) return;
+        sessionComing = {count:r.comingCount, names:r.coming.map(function(x){return x.name;}), you:r.youComing};
+        renderLive();
+        toast(r.youComing? "מהמם! נתראה באימון 💪" : "ביטלת את ההגעה");
+      });
+    }).catch(function(){});
+  }
+
+  /* ── network ── */
+  function post(path, body){
+    return fetch(API+path, {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(body)})
+      .then(function(r){ return r.json(); }).catch(function(){ toast("אין חיבור כרגע"); return null; });
+  }
+
+  /* ── feed render ── */
+  var openComments = {};   // momentId -> bool (keep expanded across refreshes)
+  function render(data){
+    var moments = data.moments||[];
+    // session coming (from server, keyed by current next session)
+    if(data.session){ sessionComing = {count:data.session.comingCount, names:data.session.coming.map(function(x){return x.name;}), you:data.session.youComing}; renderLive(); }
+    if(!moments.length){ feedEl.innerHTML=""; emptyEl.hidden=false; return; }
+    emptyEl.hidden = true;
+    feedEl.innerHTML = moments.map(function(m){
+      var names = m.coming.map(function(x){return x.name;});
+      var comingTxt = m.comingCount ? ("🙋‍♀️ "+m.comingCount+" מגיעות"+(names.length?" · "+names.slice(0,4).join(", "):"")) : "";
+      var cmtsHtml = m.comments.map(function(c){ return '<div class="cmt"><b>'+esc(c.name)+'</b> '+esc(c.text)+'<span class="cmt__t">'+ago(c.ts)+'</span></div>'; }).join("");
+      return ''+
+      '<article class="moment" data-id="'+m.id+'">'+
+        '<div class="moment__top">'+
+          '<img class="moment__av" src="assets/img/logo.png" alt="">'+
+          '<span class="moment__by">מיכל פיטנס</span>'+
+          '<span class="moment__time">'+ago(m.ts)+'</span>'+
+          (ADMIN? '<button class="moment__del" data-del="'+m.id+'">מחיקה</button>':'')+
+        '</div>'+
+        '<div class="moment__txt">'+(m.emoji?'<span class="em">'+esc(m.emoji)+'</span>':'')+esc(m.text)+'</div>'+
+        (m.image?'<img class="moment__img" src="'+esc(m.image)+'" alt="" loading="lazy">':'')+
+        '<div class="acts">'+
+          '<button class="act'+(m.youLiked?" on-like":"")+'" data-like="'+m.id+'"><span class="ic">'+(m.youLiked?"❤️":"🤍")+'</span> <span class="n">'+m.likes+'</span></button>'+
+          '<button class="act" data-cmt="'+m.id+'"><span class="ic">💬</span> <span class="n">'+m.comments.length+'</span></button>'+
+          '<button class="act'+(m.youComing?" on-coming":"")+'" data-coming="'+m.id+'"><span class="ic">🙋‍♀️</span> '+(m.youComing?"מגיעה":"אני מגיעה")+'</button>'+
+        '</div>'+
+        (comingTxt?'<div class="coming-names">'+esc(comingTxt)+'</div>':'')+
+        '<div class="cmts'+(openComments[m.id]?" open":"")+'" data-cmts="'+m.id+'">'+
+          '<div class="cmt-list">'+cmtsHtml+'</div>'+
+          '<div class="cmt-form"><input type="text" maxlength="240" placeholder="כתבי תגובה…" data-cinput="'+m.id+'"><button class="act" data-csend="'+m.id+'">שליחה</button></div>'+
+        '</div>'+
+      '</article>';
+    }).join("");
+  }
+
+  /* ── delegated actions ── */
+  feedEl.addEventListener("click", function(e){
+    var t = e.target.closest("[data-like],[data-cmt],[data-coming],[data-csend],[data-del]");
+    if(!t) return;
+    var id;
+    if((id=t.getAttribute("data-like"))){
+      post("/api/like", {cid:cid, id:id}).then(function(r){ if(r&&r.ok){ var b=t; b.classList.toggle("on-like",r.youLiked); b.querySelector(".ic").textContent=r.youLiked?"❤️":"🤍"; b.querySelector(".n").textContent=r.likes; } });
+    } else if((id=t.getAttribute("data-coming"))){
+      ensureName().then(function(name){ post("/api/coming",{cid:cid,key:id,name:name}).then(function(r){ if(r&&r.ok){ refresh(); toast(r.youComing?"רשום! נתראה 💪":"בוטל"); } }); }).catch(function(){});
+    } else if((id=t.getAttribute("data-cmt"))){
+      var box = feedEl.querySelector('[data-cmts="'+id+'"]'); openComments[id]=!openComments[id]; box.classList.toggle("open",openComments[id]);
+      if(openComments[id]){ var inp=box.querySelector("input"); if(inp) setTimeout(function(){inp.focus();},30); }
+    } else if((id=t.getAttribute("data-csend"))){
+      sendComment(id);
+    } else if((id=t.getAttribute("data-del"))){
+      if(confirm("למחוק את הפוסט?")) post("/api/delete",{adminKey:ADMIN,id:id}).then(function(r){ if(r&&r.ok){ delete openComments[id]; refresh(); toast("נמחק"); } });
+    }
+  });
+  feedEl.addEventListener("keydown", function(e){
+    if(e.key==="Enter" && e.target.matches("[data-cinput]")){ sendComment(e.target.getAttribute("data-cinput")); }
+  });
+  function sendComment(id){
+    var inp = feedEl.querySelector('[data-cinput="'+id+'"]'); if(!inp) return;
+    var text = inp.value.trim(); if(!text) return;
+    ensureName().then(function(name){
+      post("/api/comment",{cid:cid,id:id,name:name,text:text}).then(function(r){
+        if(r&&r.ok){ inp.value=""; openComments[id]=true; refresh(); }
+      });
+    }).catch(function(){});
+  }
+
+  /* ── admin composer ── */
+  var EMO = ["🔥","🚴‍♀️","🥊","🧘‍♀️","💪","✨","❤️","🎉","⏰","📣"], chosen="";
+  if(ADMIN){
+    var comp = $("#composer"); comp.hidden=false;
+    var ebox = $("#emojis");
+    ebox.innerHTML = EMO.map(function(e){ return '<button type="button" data-e="'+e+'">'+e+'</button>'; }).join("");
+    ebox.addEventListener("click", function(ev){ var b=ev.target.closest("[data-e]"); if(!b) return; var e=b.getAttribute("data-e"); chosen = (chosen===e?"":e); [].forEach.call(ebox.children,function(c){ c.classList.toggle("sel", c.getAttribute("data-e")===chosen); }); });
+    $("#cPost").addEventListener("click", function(){
+      var txt = $("#cText").value.trim(); if(!txt && !chosen){ toast("כתבי משהו 🙂"); return; }
+      post("/api/moment",{adminKey:ADMIN, text:txt, emoji:chosen}).then(function(r){
+        if(r&&r.ok){ $("#cText").value=""; chosen=""; [].forEach.call(ebox.children,function(c){c.classList.remove("sel");}); refresh(); toast("פורסם! 🎉"); }
+        else toast("הפרסום נכשל — בדקי את מפתח הניהול");
+      });
+    });
+  }
+
+  /* ── refresh loop ── */
+  var loading=false;
+  function refresh(){
+    if(loading) return; loading=true;
+    var sk = ""; var s = nextSession(new Date()); if(s) sk = sessionKey(s);
+    fetch(API+"/api/feed?cid="+encodeURIComponent(cid)+"&sk="+encodeURIComponent(sk))
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if(d&&d.ok) render(d); })
+      .catch(function(){})
+      .then(function(){ loading=false; });
+  }
+  $("#refresh").addEventListener("click", function(){ refresh(); toast("רוענן"); });
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) refresh(); });
+
+  renderLive();
+  refresh();
+  setInterval(refresh, 9000);     // live polling
+  setInterval(renderLive, 30000); // keep countdown / now-next fresh
+
+  /* ── install prompt ── */
+  var deferred=null, installBtn=$("#install");
+  window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred=e; installBtn.hidden=false; });
+  installBtn.addEventListener("click", function(){
+    if(deferred){ deferred.prompt(); deferred.userChoice.then(function(){ installBtn.hidden=true; deferred=null; }); }
+    else { toast("בספארי: שיתוף → ׳הוסף למסך הבית׳"); }
+  });
+  window.addEventListener("appinstalled", function(){ installBtn.hidden=true; });
+  // iOS has no beforeinstallprompt — show a gentle hint once
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  var standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if(isIOS && !standalone && !localStorage.getItem("mfnow_ios_hint")){ installBtn.hidden=false; installBtn.textContent="הוסיפי למסך הבית: שיתוף ⤴ → ׳למסך הבית׳"; localStorage.setItem("mfnow_ios_hint","1"); }
+
+  /* ── service worker ── */
+  if("serviceWorker" in navigator){ navigator.serviceWorker.register("now-sw.js",{scope:"./"}).catch(function(){}); }
+})();
+</script>
+</body>
+</html>

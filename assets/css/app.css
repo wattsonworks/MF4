@@ -545,6 +545,7 @@ body.loaded .preloader{opacity:0;visibility:hidden;pointer-events:none}
 @keyframes etabPop{from{transform:translateX(-110%)}to{transform:translateX(0)}}
 .etab--rose{background:var(--rose)}
 .etab--gold{background:var(--gold);color:var(--ink)}
+.etab--live{background:#e11d48}
 @media(hover:hover){.etab:hover{transform:translateX(10px);box-shadow:16px 16px 42px rgba(35,20,25,.42)}}
 .etab.grab{cursor:grabbing;transition:transform .09s linear,box-shadow .3s}
 @media(max-width:560px){.etab{font-size:.66rem;padding:.95rem .5rem;letter-spacing:.12em}}
