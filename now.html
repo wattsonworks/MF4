@@ -66,7 +66,7 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
 .day__d{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--blush);opacity:.78}
 .day__prog{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;color:var(--gold);margin:0 .2rem .65rem}
 .ses{display:flex;align-items:center;gap:.7rem;padding:.7rem .85rem;border-radius:14px;margin-bottom:.5rem;
-  background:var(--card);border:1px solid var(--card-line);animation:rise .45s var(--ease) both}
+  background:var(--card);border:1px solid var(--card-line)}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ses__time{font-family:var(--mono);font-weight:600;font-size:.92rem;color:var(--blush);min-width:3.1em;text-align:center}
 .ses__main{flex:1;min-width:0}
@@ -92,6 +92,12 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
 .ses--past{opacity:.5}
 .ses--past .ses__rsvp{display:none}
 .ses-empty{color:rgba(243,198,208,.6);font-size:.92rem;padding:.55rem .2rem}
+.ses__wx{display:inline-flex;align-items:center;gap:.3rem;margin-top:.4rem;font-family:var(--mono);font-size:.72rem;
+  color:#ffe9cf;background:rgba(217,159,99,.14);border:1px solid rgba(217,159,99,.4);border-radius:999px;padding:.16em .6em}
+.shabbat{margin:.2rem 0 .5rem;border-radius:16px;padding:1.1rem;text-align:center;
+  background:linear-gradient(160deg,rgba(217,159,99,.18),rgba(255,255,255,.03));border:1px solid rgba(217,159,99,.4)}
+.shabbat b{font-family:var(--serif);font-weight:500;font-size:1.4rem;display:block;margin-bottom:.25rem}
+.shabbat span{font-size:.88rem;color:var(--blush)}
 .weektoggle{width:100%;margin:.5rem 0 .2rem;min-height:46px;border-radius:12px;border:1px dashed var(--card-line);background:transparent;color:var(--blush);font-family:var(--mono);font-size:.78rem}
 
 /* admin composer */
@@ -107,7 +113,7 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
 
 /* feed */
 .sec-lab{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blush);opacity:.8;margin:1.5rem .2rem .5rem}
-.moment{border-radius:18px;background:var(--card);border:1px solid var(--card-line);padding:1rem 1.05rem;margin-bottom:.85rem;animation:rise .5s var(--ease) both}
+.moment{border-radius:18px;background:var(--card);border:1px solid var(--card-line);padding:1rem 1.05rem;margin-bottom:.85rem}
 .moment__top{display:flex;align-items:center;gap:.55rem;margin-bottom:.5rem}
 .moment__av{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:0 0 auto}
 .moment__by{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blush)}
@@ -279,14 +285,15 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
   function visibleDays(){
     var n=new Date(); var t=new Date(n.getFullYear(),n.getMonth(),n.getDate());
     var ds=[{d:t,today:true},{d:new Date(t.getFullYear(),t.getMonth(),t.getDate()+1),today:false}];
-    if(weekOpen) for(var off=2;off<7;off++) ds.push({d:new Date(t.getFullYear(),t.getMonth(),t.getDate()+off),today:false});
+    if(weekOpen) for(var off=2;off<8;off++) ds.push({d:new Date(t.getFullYear(),t.getMonth(),t.getDate()+off),today:false});
     return ds;
   }
+  var lastSessSig="";
   function fetchSessions(){
     var keys=[]; visibleDays().forEach(function(x){ dayObj(x.d,false).list.forEach(function(s){ keys.push(s.key); }); });
     if(!keys.length){ renderPanel(); return; }
     fetch(API+"/api/sessions?cid="+encodeURIComponent(cid)+"&keys="+encodeURIComponent(keys.join("|")))
-      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ comingMap=d.sessions; } renderPanel(); }).catch(function(){ renderPanel(); });
+      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ comingMap=d.sessions; } var sig=JSON.stringify(comingMap); if(sig!==lastSessSig){ lastSessSig=sig; renderPanel(); } }).catch(function(){});
   }
 
   function avatars(names){ return (names||[]).slice(0,5).map(function(n){ return '<span class="ava">'+esc(String(n||"?").trim().charAt(0)||"?")+'</span>'; }).join(""); }
@@ -302,12 +309,28 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
     else if(s.state==="next"){ var diff=Math.round((s.ms-Date.now())/60000); if(diff<60) sub+=' · בעוד '+diff+' דק׳'; }
     var coming = s.state==="past" ? (c&&c.count?'<div class="ses__coming muted">'+c.count+' השתתפו</div>':'') : comingLine(c,feat);
     var rsvp = s.state==="past" ? '' : '<button class="ses__rsvp'+(c&&c.youComing?' is-on':'')+'" data-rsvp="'+esc(s.key)+'">'+(c&&c.youComing?'✓ מגיעה':'אני מגיעה')+'</button>';
+    var wx="";
+    if(s.state!=="past" && /ריצ|בטבע|חוץ/.test(s.cls)){ var w=wxByHour[wxKey(s.ms)]; if(w) wx='<span class="ses__wx">'+wxEmoji(w.code)+' '+Math.round(w.t)+'° · '+(w.p>=20?w.p+'% גשם':'בלי גשם')+' · צפת</span>'; }
     return '<div class="ses ses--'+s.state+'" data-key="'+esc(s.key)+'">'+
       '<div class="ses__time">'+esc(s.time)+'</div>'+
-      '<div class="ses__main"><div class="ses__cls">'+esc(s.cls)+' '+badge+'</div><div class="ses__who">'+sub+'</div>'+coming+'</div>'+
+      '<div class="ses__main"><div class="ses__cls">'+esc(s.cls)+' '+badge+'</div><div class="ses__who">'+sub+'</div>'+wx+coming+'</div>'+
       rsvp+'</div>';
   }
-  function greeting(d){ var h=d.getHours(); var g=h<12?"בוקר טוב ☀️":h<17?"צהריים טובים":h<21?"ערב טוב 🌙":"לילה טוב 🌙"; var n=getName(); return g+(n?", "+esc(n):"")+" — הנה מה שקורה בסטודיו"; }
+  function isShabbat(d){ var day=d.getDay(), h=d.getHours(); return day===6 || (day===5 && h>=15); } // Fri eve → Sat
+  function greeting(d){ var n=getName(); if(isShabbat(d)) return "שבת שלום 🌿"+(n?", "+esc(n):""); var h=d.getHours(); var g=h<12?"בוקר טוב ☀️":h<17?"צהריים טובים":h<21?"ערב טוב 🌙":"לילה טוב 🌙"; return g+(n?", "+esc(n):"")+" — הנה מה שקורה בסטודיו"; }
+
+  /* ── weather (Open-Meteo, keyless) for outdoor runs · Safed/Tzfat ── */
+  var wxByHour={};
+  function wxKey(ms){ var d=new Date(ms); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":00"; }
+  function wxEmoji(c){ if(c===0)return"☀️"; if(c<=3)return"⛅"; if(c<=48)return"🌫️"; if(c<=67)return"🌧️"; if(c<=77)return"🌨️"; if(c<=82)return"🌦️"; if(c<=86)return"🌨️"; return"⛈️"; }
+  function loadWeather(){
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=32.9686&longitude=35.4889&hourly=temperature_2m,precipitation_probability,weather_code&forecast_days=8&timezone=auto")
+      .then(function(r){return r.json();}).then(function(d){
+        if(!d||!d.hourly)return; var t=d.hourly.time,tm=d.hourly.temperature_2m,pp=d.hourly.precipitation_probability,wc=d.hourly.weather_code,m={};
+        for(var i=0;i<t.length;i++){ m[t[i]]={t:tm[i],p:pp[i]==null?0:pp[i],code:wc[i]}; }
+        wxByHour=m; renderPanel();
+      }).catch(function(){});
+  }
 
   function renderPanel(){
     var now=new Date();
@@ -318,13 +341,13 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
     var h='<div class="greet">'+greeting(now)+'</div>';
     h+='<div class="day"><div class="day__h"><h2>היום</h2><span class="day__d">'+DAYS[now.getDay()]+' · '+fmtDate(now)+'</span></div>';
     if(today.list.length){ h+='<div class="day__prog">'+(done?done+' מתוך '+today.list.length+' אימונים הסתיימו':today.list.length+' אימונים מתוכננים היום')+'</div>'+today.list.map(sesRow).join(''); }
-    else h+='<div class="ses-empty">אין אימונים היום — יום מנוחה 🌿</div>';
+    else h+= (now.getDay()===6) ? '<div class="shabbat"><b>שבת שלום 🌿</b><span>הסטודיו סגור היום — נתראה אחרי צאת השבת.</span></div>' : '<div class="ses-empty">אין אימונים היום — יום מנוחה 🌿</div>';
     h+='</div>';
     h+='<div class="day"><div class="day__h"><h2>מחר</h2><span class="day__d">'+DAYS[tmrwDate.getDay()]+' · '+fmtDate(tmrwDate)+'</span></div>';
     h+= tmrw.list.length? tmrw.list.map(sesRow).join('') : '<div class="ses-empty">אין אימונים מחר 🌿</div>';
     h+='</div>';
     h+='<button class="weektoggle" id="weekToggle">'+(weekOpen?"הסתרת שאר השבוע ↑":"כל השבוע ↓")+'</button>';
-    if(weekOpen){ for(var off=2;off<7;off++){ var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+off); var dd=dayObj(d,false);
+    if(weekOpen){ for(var off=2;off<8;off++){ var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+off); var dd=dayObj(d,false);
       h+='<div class="day"><div class="day__h"><h2>'+DAYS[d.getDay()]+'</h2><span class="day__d">'+fmtDate(d)+'</span></div>';
       h+= dd.list.length? dd.list.map(sesRow).join('') : '<div class="ses-empty">יום מנוחה 🌿</div>'; h+='</div>'; } }
     panelEl.innerHTML=h;
@@ -370,13 +393,13 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
   feedEl.addEventListener("click", function(e){
     var t=e.target.closest("[data-like],[data-cmt],[data-coming],[data-csend],[data-del]"); if(!t) return; var id;
     if((id=t.getAttribute("data-like"))){ post("/api/like",{cid:cid,id:id}).then(function(r){ if(r&&r.ok){ t.classList.toggle("on-like",r.youLiked); t.querySelector(".ic").textContent=r.youLiked?"❤️":"🤍"; t.querySelector(".n").textContent=r.likes; } }); }
-    else if((id=t.getAttribute("data-coming"))){ ensureName().then(function(name){ post("/api/coming",{cid:cid,key:id,name:name}).then(function(r){ if(r&&r.ok){ refresh(); toast(r.youComing?"רשום! נתראה 💪":"בוטל"); } }); }).catch(function(){}); }
+    else if((id=t.getAttribute("data-coming"))){ ensureName().then(function(name){ post("/api/coming",{cid:cid,key:id,name:name}).then(function(r){ if(r&&r.ok){ refreshFeed(true); toast(r.youComing?"רשום! נתראה 💪":"בוטל"); } }); }).catch(function(){}); }
     else if((id=t.getAttribute("data-cmt"))){ var box=feedEl.querySelector('[data-cmts="'+id+'"]'); openComments[id]=!openComments[id]; box.classList.toggle("open",openComments[id]); if(openComments[id]){ var inp=box.querySelector("input"); if(inp) setTimeout(function(){inp.focus();},30); } }
     else if((id=t.getAttribute("data-csend"))){ sendComment(id); }
-    else if((id=t.getAttribute("data-del"))){ if(confirm("למחוק את הפוסט?")) post("/api/delete",{adminKey:ADMIN,id:id}).then(function(r){ if(r&&r.ok){ delete openComments[id]; refresh(); toast("נמחק"); } }); }
+    else if((id=t.getAttribute("data-del"))){ if(confirm("למחוק את הפוסט?")) post("/api/delete",{adminKey:ADMIN,id:id}).then(function(r){ if(r&&r.ok){ delete openComments[id]; refreshFeed(true); toast("נמחק"); } }); }
   });
   feedEl.addEventListener("keydown", function(e){ if(e.key==="Enter"&&e.target.matches("[data-cinput]")) sendComment(e.target.getAttribute("data-cinput")); });
-  function sendComment(id){ var inp=feedEl.querySelector('[data-cinput="'+id+'"]'); if(!inp) return; var text=inp.value.trim(); if(!text) return; ensureName().then(function(name){ post("/api/comment",{cid:cid,id:id,name:name,text:text}).then(function(r){ if(r&&r.ok){ inp.value=""; openComments[id]=true; refresh(); } }); }).catch(function(){}); }
+  function sendComment(id){ var inp=feedEl.querySelector('[data-cinput="'+id+'"]'); if(!inp) return; var text=inp.value.trim(); if(!text) return; ensureName().then(function(name){ post("/api/comment",{cid:cid,id:id,name:name,text:text}).then(function(r){ if(r&&r.ok){ inp.value=""; openComments[id]=true; refreshFeed(true); } }); }).catch(function(){}); }
 
   /* admin composer */
   var EMO=["🔥","🚴‍♀️","🥊","🧘‍♀️","💪","✨","❤️","🎉","⏰","📣"], chosen="";
@@ -384,19 +407,29 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
     var comp=$("#composer"); comp.hidden=false; var ebox=$("#emojis");
     ebox.innerHTML=EMO.map(function(e){return '<button type="button" data-e="'+e+'">'+e+'</button>';}).join("");
     ebox.addEventListener("click", function(ev){ var b=ev.target.closest("[data-e]"); if(!b)return; var e=b.getAttribute("data-e"); chosen=(chosen===e?"":e); [].forEach.call(ebox.children,function(c){ c.classList.toggle("sel",c.getAttribute("data-e")===chosen); }); });
-    $("#cPost").addEventListener("click", function(){ var txt=$("#cText").value.trim(); if(!txt&&!chosen){ toast("כתבי משהו 🙂"); return; } post("/api/moment",{adminKey:ADMIN,text:txt,emoji:chosen}).then(function(r){ if(r&&r.ok){ $("#cText").value=""; chosen=""; [].forEach.call(ebox.children,function(c){c.classList.remove("sel");}); refresh(); toast("פורסם! 🎉"); } else toast("הפרסום נכשל — בדקי את מפתח הניהול"); }); });
+    $("#cPost").addEventListener("click", function(){ var txt=$("#cText").value.trim(); if(!txt&&!chosen){ toast("כתבי משהו 🙂"); return; } post("/api/moment",{adminKey:ADMIN,text:txt,emoji:chosen}).then(function(r){ if(r&&r.ok){ $("#cText").value=""; chosen=""; [].forEach.call(ebox.children,function(c){c.classList.remove("sel");}); refreshFeed(true); toast("פורסם! 🎉"); } else toast("הפרסום נכשל — בדקי את מפתח הניהול"); }); });
   }
 
   /* refresh loop */
-  var loadingFeed=false;
-  function refreshFeed(){ if(loadingFeed)return; loadingFeed=true; fetch(API+"/api/feed?cid="+encodeURIComponent(cid)).then(function(r){return r.json();}).then(function(d){ if(d&&d.ok) renderFeed(d); }).catch(function(){}).then(function(){ loadingFeed=false; }); }
+  var loadingFeed=false, lastFeedSig="";
+  function composing(){ return [].some.call(feedEl.querySelectorAll('[data-cinput]'),function(i){ return i.value.trim()!=="" || i===document.activeElement; }); }
+  function refreshFeed(force){
+    if(loadingFeed)return; loadingFeed=true;
+    fetch(API+"/api/feed?cid="+encodeURIComponent(cid)).then(function(r){return r.json();}).then(function(d){
+      if(d&&d.ok){
+        var sig=JSON.stringify((d.moments||[]).map(function(m){ return [m.id,m.likes,m.comingCount,m.comments.length,m.youLiked,m.youComing]; }));
+        if(force || (sig!==lastFeedSig && !composing())){ lastFeedSig=sig; renderFeed(d); }
+      }
+    }).catch(function(){}).then(function(){ loadingFeed=false; });
+  }
   function refresh(){ fetchSessions(); refreshFeed(); }
   $("#refresh").addEventListener("click", function(){ refresh(); toast("רוענן"); });
   document.addEventListener("visibilitychange", function(){ if(!document.hidden) refresh(); });
 
-  renderPanel(); refresh();
-  setInterval(refresh, 9000);       // live polling (sessions + feed)
+  renderPanel(); refresh(); loadWeather();
+  setInterval(refresh, 9000);       // live polling (sessions + feed) — renders only on change
   setInterval(renderPanel, 30000);  // keep countdown / now-next / greeting fresh
+  setInterval(loadWeather, 1800000);// refresh Safed forecast every 30 min
 
   /* install */
   var deferred=null, installBtn=$("#install");
