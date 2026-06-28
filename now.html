@@ -304,16 +304,16 @@ main{padding-bottom:calc(env(safe-area-inset-bottom) + 5.5rem)}
   function sesRow(s){
     var c=comingMap[s.key]||null, feat=(s.state==="now"||s.state==="next");
     var badge = s.state==="now"?'<span class="badge badge-now">🔴 עכשיו</span>':s.state==="next"?'<span class="badge badge-next">הבא בתור</span>':s.state==="past"?'<span class="badge badge-past">✓ הסתיים</span>':'';
-    var sub='עם '+esc(s.who);
-    if(s.state==="now"){ var left=Math.max(1,Math.round((s.ms+DUR-Date.now())/60000)); sub+=' · עוד כ-'+left+' דק׳'; }
-    else if(s.state==="next"){ var diff=Math.round((s.ms-Date.now())/60000); if(diff<60) sub+=' · בעוד '+diff+' דק׳'; }
+    var sub='';
+    if(s.state==="now"){ var left=Math.max(1,Math.round((s.ms+DUR-Date.now())/60000)); sub='עוד כ-'+left+' דק׳'; }
+    else if(s.state==="next"){ var diff=Math.round((s.ms-Date.now())/60000); if(diff<60) sub='בעוד '+diff+' דק׳'; }
     var coming = s.state==="past" ? (c&&c.count?'<div class="ses__coming muted">'+c.count+' השתתפו</div>':'') : comingLine(c,feat);
     var rsvp = s.state==="past" ? '' : '<button class="ses__rsvp'+(c&&c.youComing?' is-on':'')+'" data-rsvp="'+esc(s.key)+'">'+(c&&c.youComing?'✓ מגיעה':'אני מגיעה')+'</button>';
     var wx="";
     if(s.state!=="past" && /ריצ|בטבע|חוץ/.test(s.cls)){ var w=wxByHour[wxKey(s.ms)]; if(w) wx='<span class="ses__wx">'+wxEmoji(w.code)+' '+Math.round(w.t)+'° · '+(w.p>=20?w.p+'% גשם':'בלי גשם')+' · צפת</span>'; }
     return '<div class="ses ses--'+s.state+'" data-key="'+esc(s.key)+'">'+
       '<div class="ses__time">'+esc(s.time)+'</div>'+
-      '<div class="ses__main"><div class="ses__cls">'+esc(s.cls)+' '+badge+'</div><div class="ses__who">'+sub+'</div>'+wx+coming+'</div>'+
+      '<div class="ses__main"><div class="ses__cls">'+esc(s.cls)+' '+badge+'</div>'+(sub?'<div class="ses__who">'+sub+'</div>':'')+wx+coming+'</div>'+
       rsvp+'</div>';
   }
   function isShabbat(d){ var day=d.getDay(), h=d.getHours(); return day===6 || (day===5 && h>=15); } // Fri eve → Sat

@@ -451,7 +451,7 @@
       var w = Math.floor((dd - anchor) / (7 * 86400000));
       return (((w % 2) + 2) % 2) === 0 ? A : B;
     }
-    function item(c, cls) { return '<li class="sched-item ' + (cls || "") + '"><span class="t">' + c[0] + '</span><span class="n">' + c[1] + '</span><span class="w">' + c[2] + '</span></li>'; }
+    function item(c, cls) { return '<li class="sched-item ' + (cls || "") + '"><span class="t">' + c[0] + '</span><span class="n">' + c[1] + '</span></li>'; }
     function render() {
       var now = new Date(), dow = now.getDay(), today = weekOf(now)[dow] || [];
       var nowMin = now.getHours() * 60 + now.getMinutes();
@@ -467,13 +467,13 @@
       var nowEl = document.getElementById("schedNow"), titleEl = document.getElementById("schedNowTitle");
       if (ongoing) {
         nowEl.className = "sched__now live";
-        nowEl.innerHTML = '<div class="lbl"><span class="dot"></span>מתאמנות עכשיו</div><div class="cls">' + ongoing[1] + '</div><div class="meta">' + ongoing[0] + ' · ' + ongoing[2] + ' · סטודיו א</div>';
+        nowEl.innerHTML = '<div class="lbl"><span class="dot"></span>מתאמנות עכשיו</div><div class="cls">' + ongoing[1] + '</div><div class="meta">' + ongoing[0] + ' · סטודיו א</div>';
         titleEl.textContent = "קורה עכשיו בסטודיו";
       } else if (nextC) {
         var diff = toMin(nextC[0]) - nowMin, hrs = Math.round(diff / 60);
         var rel = nextLabel === "היום" ? (diff < 60 ? "בעוד " + diff + " דק׳" : (hrs === 1 ? "בעוד כשעה" : "בעוד כ-" + hrs + " שעות")) : nextLabel;
         nowEl.className = "sched__now";
-        nowEl.innerHTML = '<div class="lbl">השיעור הבא · ' + rel + '</div><div class="cls">' + nextC[1] + '</div><div class="meta">' + nextC[0] + ' · ' + nextC[2] + ' · סטודיו א</div>';
+        nowEl.innerHTML = '<div class="lbl">השיעור הבא · ' + rel + '</div><div class="cls">' + nextC[1] + '</div><div class="meta">' + nextC[0] + ' · סטודיו א</div>';
         titleEl.textContent = "מתי מתאמנים";
       } else {
         nowEl.className = "sched__now";

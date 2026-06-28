@@ -1,5 +1,5 @@
 /* michal-now PWA service worker — caches the app shell, never the live API */
-const C = "mfnow-v3";
+const C = "mfnow-v4";
 const SHELL = ["now.html", "assets/img/logo.png", "now.webmanifest"];
 
 self.addEventListener("install", e => {
