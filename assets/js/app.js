@@ -36,6 +36,11 @@
   if (burger) burger.addEventListener("click", function () {
     setMenu(!document.body.classList.contains("menu-open"));
   });
+  /* safety net: a tap on the menu backdrop (not a link) always closes it */
+  var menuEl = document.querySelector(".menu");
+  if (menuEl) menuEl.addEventListener("click", function (e) {
+    if (!e.target.closest("a")) setMenu(false);
+  });
   document.querySelectorAll(".menu a, .menu__list a").forEach(function (a) {
     a.addEventListener("click", function (e) {
       var href = a.getAttribute("href");
