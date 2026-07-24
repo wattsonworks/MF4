@@ -620,27 +620,26 @@ body.sched-open .sched{transform:translateX(0);visibility:visible;transition:tra
 .cursor.labeled{mix-blend-mode:normal;background:var(--rose);border-color:var(--rose);width:76px;height:76px}
 .cursor.labeled .cursor__label{opacity:1}
 
-/* ===== STUDIO IN MOTION (reels) ===== */
+/* ===== STUDIO IN MOTION — unified video wall =====
+   ONE rule for every clip: equal row height, explicit px only (iOS-safe),
+   portrait cards 9:16, landscape cards 16:9 — all edges flush. */
 .reels__head{max-width:60ch;margin-bottom:clamp(2rem,5vw,3.4rem)}
-.reels__grid{display:grid;gap:clamp(1.1rem,2.6vw,1.9rem);grid-template-columns:1fr}
-.reel{margin:0}
-.reel__frame{position:relative;overflow:hidden;border-radius:20px;aspect-ratio:16/9;background:#120a0e;
-  box-shadow:0 24px 60px rgba(42,20,29,.55);border:1px solid rgba(255,255,255,.08)}
 #reels{border-top:1px solid rgba(243,198,208,.12)}
-.reel__frame video{width:100%;height:100%;object-fit:cover;display:block}
-.reel--lg .reel__frame{aspect-ratio:9/16}
-.reel__tag{position:absolute;bottom:.7rem;right:.7rem;inset-block-end:.7rem;inset-inline-start:.7rem;z-index:2;font-family:var(--mono);
+.vidwall{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.vw{position:relative;margin:0;flex:0 0 auto;height:300px;border-radius:16px;overflow:hidden;
+  background:#120a0e;border:1px solid rgba(255,255,255,.08);box-shadow:0 14px 36px rgba(42,20,29,.45)}
+.vw--p{width:169px}
+.vw--l{width:533px;max-width:100%}
+.vw video{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:700px){
+  .vw{height:220px}
+  .vw--p{width:124px}
+  .vw--l{width:100%;max-width:391px}
+}
+.reel__tag{position:absolute;bottom:.7rem;right:.7rem;z-index:2;font-family:var(--mono);
   font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;padding:.36em .8em;border-radius:999px;
   background:rgba(20,10,14,.5);color:#fff;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.reel figcaption{margin-top:.9rem}
-.reel figcaption b{font-family:var(--serif);font-weight:500;font-size:clamp(1.2rem,2.4vw,1.55rem);display:block;margin-bottom:.3rem}
-.reel figcaption span{display:block;color:var(--blush);opacity:.82;font-size:.86rem;line-height:1.55;max-width:44ch}
-@media(min-width:860px){
-  .reels__grid{grid-template-columns:minmax(280px,360px) 1fr;align-items:start}
-  .reel--lg{grid-row:span 3}
-}
-@media(max-width:859px){ .reel--lg{max-width:340px;margin-inline:auto} }
-/* under reduced-motion the reels get native controls — keep the corner tag off the control bar */
+/* under reduced-motion the clips get native controls — keep the corner tag off the control bar */
 @media(prefers-reduced-motion:reduce){ .reel__tag{display:none} }
 
 /* ===== visible keyboard focus (WCAG 2.4.7) — was missing site-wide ===== */
@@ -659,20 +658,4 @@ body.sched-open .wa,
 body.menu-open .etabs,
 body.menu-open .wa{opacity:0;visibility:hidden;pointer-events:none}
 
-/* ===== course video strip (הצצה לכל שיעור) =====
-   iOS-safe: every dimension is explicit px/vw (no min()/intrinsic sizing —
-   old Safari dropped the height and let 480px-wide videos blow the viewport) */
-.crs{margin-top:clamp(2rem,5vw,3.2rem);max-width:100%;overflow:hidden}
-.crs__head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
-.crs__row{display:flex;gap:.9rem;overflow-x:auto;max-width:100%;padding-bottom:.6rem;
-  touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
-.crs__row::-webkit-scrollbar{height:0}
-.crs__card{flex:0 0 auto;width:168px;margin:0}
-.crs__card video{width:168px;height:300px;object-fit:cover;display:block;border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);background:#120a0e;box-shadow:0 14px 36px rgba(42,20,29,.45)}
-.crs__card figcaption{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--blush);margin-top:.55rem;text-align:center}
-@media(max-width:480px){
-  .crs__card{width:42vw}
-  .crs__card video{width:42vw;height:75vw}
-}
+/* (course-strip rules removed — all clips live in the unified .vidwall above) */
