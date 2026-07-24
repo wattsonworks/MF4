@@ -98,6 +98,7 @@ section[id]{scroll-margin-top:96px}
 /* full-screen menu overlay */
 .menu{position:fixed;inset:0;z-index:101;background:var(--wine);color:var(--paper);
   display:flex;flex-direction:column;justify-content:center;padding:var(--gut);
+  padding-top:calc(96px + env(safe-area-inset-top,0px)); /* clear the fixed bar — links were sliding under the brand/burger */
   clip-path:inset(0 0 100% 0);transition:clip-path .7s var(--ease-out);pointer-events:none}
 body.menu-open .menu{clip-path:inset(0 0 0% 0);pointer-events:auto}
 body.menu-open .burger span{background:var(--paper)}
@@ -109,7 +110,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45de
 .burger{position:relative}
 body.menu-open .nav{z-index:112;background:transparent;box-shadow:none}
 body.menu-open .nav__brand,body.menu-open .nav__brand small{color:var(--paper)}
-.menu__list{display:flex;flex-direction:column;gap:.2rem}
+.menu__list{display:flex;flex-direction:column;gap:.2rem;margin-block:auto} /* center between bar and foot */
 .menu__list a{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,9vw,5.5rem);line-height:1.05;
   width:max-content;max-width:100%;transition:color .3s,padding .4s var(--ease);position:relative}
 .menu__list a span{font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;vertical-align:super;color:var(--rose);margin-inline-start:.6rem}
@@ -653,3 +654,15 @@ body.sched-open .etabs,
 body.sched-open .wa,
 body.menu-open .etabs,
 body.menu-open .wa{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ===== course video strip (הצצה לכל שיעור) ===== */
+.crs{margin-top:clamp(2rem,5vw,3.2rem)}
+.crs__head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+.crs__row{display:flex;gap:.9rem;overflow-x:auto;padding-bottom:.6rem;
+  scroll-snap-type:x proximity;touch-action:pan-x;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.crs__row::-webkit-scrollbar{height:0}
+.crs__card{flex:0 0 auto;margin:0;scroll-snap-align:start}
+.crs__card video{height:min(300px,52vw);width:auto;display:block;border-radius:16px;
+  border:1px solid rgba(255,255,255,.08);background:#120a0e;box-shadow:0 14px 36px rgba(42,20,29,.45)}
+.crs__card figcaption{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--blush);margin-top:.55rem;text-align:center}
