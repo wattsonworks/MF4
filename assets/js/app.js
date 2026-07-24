@@ -24,12 +24,29 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
+  /* ---- iOS-safe scroll lock (html overflow:hidden is ignored for touch until Safari 16) ---- */
+  var lockedY = 0, scrollLocked = false;
+  function lockScroll(on) {
+    if (on === scrollLocked) return;
+    scrollLocked = on;
+    var b = document.body.style;
+    if (on) {
+      lockedY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      document.documentElement.style.overflow = "hidden";
+      b.position = "fixed"; b.top = (-lockedY) + "px"; b.left = "0"; b.right = "0"; b.width = "100%";
+    } else {
+      document.documentElement.style.overflow = "";
+      b.position = ""; b.top = ""; b.left = ""; b.right = ""; b.width = "";
+      window.scrollTo(0, lockedY);
+    }
+  }
+
   /* ---- full-screen menu ---- */
   var burger = document.querySelector(".burger");
   function setMenu(open) {
     if (open) { document.body.classList.remove("sched-open"); var sd = document.getElementById("sched"); if (sd) sd.setAttribute("aria-hidden", "true"); }
     document.body.classList.toggle("menu-open", open);
-    document.documentElement.style.overflow = open ? "hidden" : "";
+    lockScroll(open);
     if (burger) burger.setAttribute("aria-expanded", open ? "true" : "false");
     if (open) nav.classList.remove("hide");
   }
@@ -505,8 +522,8 @@
       }
       document.getElementById("schedWeek").innerHTML = html;
     }
-    function open() { document.body.classList.remove("menu-open"); render(); buildWeek(); document.body.classList.add("sched-open"); document.documentElement.style.overflow = "hidden"; drawer.setAttribute("aria-hidden", "false"); }
-    function close() { document.body.classList.remove("sched-open"); document.documentElement.style.overflow = ""; drawer.setAttribute("aria-hidden", "true"); }
+    function open() { document.body.classList.remove("menu-open"); render(); buildWeek(); document.body.classList.add("sched-open"); lockScroll(true); drawer.setAttribute("aria-hidden", "false"); }
+    function close() { document.body.classList.remove("sched-open"); lockScroll(false); drawer.setAttribute("aria-hidden", "true"); }
     if (tab) tab.addEventListener("click", function (e) { e.preventDefault(); open(); });
     if (scrim) scrim.addEventListener("click", close);
     drawer.querySelector(".sched__x").addEventListener("click", close);
