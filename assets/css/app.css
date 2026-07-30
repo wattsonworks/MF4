@@ -659,3 +659,20 @@ body.menu-open .etabs,
 body.menu-open .wa{opacity:0;visibility:hidden;pointer-events:none}
 
 /* (course-strip rules removed — all clips live in the unified .vidwall above) */
+
+/* ===== NEW: reformer pilates spotlight (hero pill + section) — dumb physical CSS only ===== */
+.hero__new{display:inline-flex;align-items:center;margin-bottom:1.1rem;font-family:var(--mono);font-weight:600;
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(224,70,122,.92);
+  border-radius:999px;padding:.55em 1.2em;box-shadow:0 8px 24px rgba(224,70,122,.4)}
+.hero__new b{font-weight:700;margin-left:.35em;margin-right:.35em}
+.pnew{border-top:1px solid rgba(243,198,208,.12)}
+.pnew__grid{display:grid;grid-template-columns:1fr;gap:2.2rem;align-items:center}
+.pnew__badge{display:inline-block;font-family:var(--mono);font-weight:600;font-size:.72rem;letter-spacing:.18em;
+  text-transform:uppercase;color:#fff;background:var(--rose);border-radius:999px;padding:.5em 1.1em;
+  box-shadow:0 8px 24px rgba(224,70,122,.35)}
+.pnew__cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem}
+.pnew__media{margin:0}
+.pnew__media video{width:300px;height:533px;max-width:100%;object-fit:cover;display:block;border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 60px rgba(42,20,29,.55);margin-left:auto;margin-right:auto}
+@media(min-width:860px){.pnew__grid{grid-template-columns:1fr 340px}}
+@media(max-width:600px){.pnew__media video{width:72vw;height:128vw}}
