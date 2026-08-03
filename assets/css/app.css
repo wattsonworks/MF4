@@ -691,3 +691,30 @@ body.menu-open .wa{opacity:0;visibility:hidden;pointer-events:none}
 .prow__p small{font-size:.95rem;font-weight:500}
 .prow--try{background:rgba(224,70,122,.07)}
 .prow--try .prow__t b{color:var(--rose-deep)}
+
+/* ===== service areas strip (מגיעות אלינו מכל הגליל) ===== */
+.areas{margin-top:3.2rem;padding-top:2.6rem;border-top:1px solid var(--line);text-align:center}
+.areas__txt{max-width:56ch;margin:1rem auto 1.4rem}
+.areas__chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem}
+.achip{display:inline-block;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--ink);
+  background:#fff;border:1px solid var(--line);border-radius:999px;padding:.5em 1em;white-space:nowrap}
+
+/* ===== magazine article pages (dumb physical CSS only) ===== */
+.art-top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.2rem;background:rgba(247,239,232,.92);border-bottom:1px solid var(--line)}
+.art-top a{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--ink)}
+.art-top .art-top__cta{color:#fff;background:var(--rose);border-radius:999px;padding:.5em 1.1em;font-weight:600}
+.art{max-width:720px;margin-left:auto;margin-right:auto;padding:96px 1.25rem 3rem}
+.art .kicker{margin-bottom:1rem}
+.art h1{font-family:var(--serif);font-weight:700;font-size:2rem;line-height:1.15;margin:0 0 1rem}
+.art__lead{font-size:1.12rem;line-height:1.75;color:rgba(35,20,25,.85)}
+.art h2{font-family:var(--serif);font-weight:700;font-size:1.4rem;line-height:1.25;margin:2.2rem 0 .7rem}
+.art p,.art li{line-height:1.8}
+.art ul{padding-right:1.2rem;margin:0 0 1em;list-style:disc}
+.art .faq{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1.4rem}
+.art .faq h3{font-family:var(--serif);font-size:1.08rem;margin:1.2rem 0 .3rem}
+.art .faq p{margin:0 0 .6rem;color:rgba(35,20,25,.8)}
+.art-cta{margin-top:2.6rem;background:var(--wine);color:var(--paper);border-radius:20px;padding:1.6rem;text-align:center}
+.art-cta p{margin:0 0 1rem;font-family:var(--serif);font-size:1.2rem;line-height:1.5}
+.art-foot{max-width:720px;margin-left:auto;margin-right:auto;padding:1.2rem;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between;font-family:var(--mono);font-size:.74rem;color:rgba(35,20,25,.65)}
